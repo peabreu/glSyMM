@@ -1,0 +1,1 @@
+for f in *.xyz; do sed 's/Cl/17/g' $f  | sed 's/H/1/g' | sed 's/N/7/g' | sed 's/O/8/g'  |  sed 's/S/16/g'| sed 's/F/9/g' | sed 's/C/6/g' > $f.num;done
