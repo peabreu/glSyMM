@@ -1,0 +1,274 @@
+Maxima 5.9.0 http://maxima.sourceforge.net
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+This is a development version of Maxima. The function bug_report()
+provides bug reporting information.
+(C1) 			    BATCH(glSyMM-calcs.max)
+
+batching /home/paulo/WORK/glSyMM/glSyMM-calcs.max
+(C2) 		       e_x : MATRIX([1], [0], [0], [0])
+				     [ 1 ]
+				     [	 ]
+				     [ 0 ]
+(D2) 				     [ 	 ]
+				     [ 0 ]
+				     [	 ]
+				     [ 0 ]
+(C3) 		       e_y : MATRIX([0], [1], [0], [0])
+				     [ 0 ]
+				     [	 ]
+				     [ 1 ]
+(D3) 				     [ 	 ]
+				     [ 0 ]
+				     [	 ]
+				     [ 0 ]
+(C4) 		       e_z : MATRIX([0], [0], [1], [0])
+				     [ 0 ]
+				     [	 ]
+				     [ 0 ]
+(D4) 				     [ 	 ]
+				     [ 1 ]
+				     [	 ]
+				     [ 0 ]
+						       2
+(C5) glRotate(THETA, x, y, z) := MATRIX([COS(THETA) + x  (1 - COS(THETA)), 
+
+x y (1 - COS(THETA)) - z SIN(THETA), y SIN(THETA) + x z (1 - COS(THETA)), 0], 
+
+						    2
+[z SIN(THETA) + y x (1 - COS(THETA)), COS(THETA) + y  (1 - COS(THETA)), 
+
+y z (1 - COS(THETA)) - x SIN(THETA), 0], 
+
+[x z (1 - COS(THETA)) - y SIN(THETA), x SIN(THETA) + y z (1 - COS(THETA)), 
+
+	      2
+COS(THETA) + z  (1 - COS(THETA)), 0], [0, 0, 0, 1])
+						       2
+(D5) glRotate(THETA, x, y, z) := MATRIX([COS(THETA) + x  (1 - COS(THETA)), 
+
+x y (1 - COS(THETA)) - z SIN(THETA), y SIN(THETA) + x z (1 - COS(THETA)), 0], 
+
+						    2
+[z SIN(THETA) + y x (1 - COS(THETA)), COS(THETA) + y  (1 - COS(THETA)), 
+
+y z (1 - COS(THETA)) - x SIN(THETA), 0], 
+
+[x z (1 - COS(THETA)) - y SIN(THETA), x SIN(THETA) + y z (1 - COS(THETA)), 
+
+	      2
+COS(THETA) + z  (1 - COS(THETA)), 0], [0, 0, 0, 1])
+(C6) 			 ERRE_1 : glRotate(a, 0, 0, 1)
+			  [ COS(a)  - SIN(a)  0	 0 ]
+			  [			   ]
+			  [ SIN(a)   COS(a)   0	 0 ]
+(D6) 			  [ 			   ]
+			  [   0	       0      1	 0 ]
+			  [			   ]
+			  [   0	       0      0	 1 ]
+(C7) 		    ERRE_2 : glRotate(b, COS(a), SIN(a), 0)
+	      [		    2		      ]
+	      [ COS(b) + COS (a) (1 - COS(b)) ]
+	      [				      ]
+(D7)  Col 1 = [  COS(a) SIN(a) (1 - COS(b))   ]
+	      [				      ]
+	      [	       - SIN(a) SIN(b)	      ]
+	      [				      ]
+	      [		      0		      ]
+
+	 [  COS(a) SIN(a) (1 - COS(b))	 ]	   [  SIN(a) SIN(b)  ]
+	 [				 ]	   [		     ]
+	 [	       2		 ]	   [ - COS(a) SIN(b) ]
+ Col 2 = [ COS(b) + SIN (a) (1 - COS(b)) ] Col 3 = [ 		     ]
+	 [				 ]	   [	 COS(b)	     ]
+	 [	   COS(a) SIN(b)	 ]	   [		     ]
+	 [				 ]	   [	    0	     ]
+	 [		 0		 ]
+
+	 [ 0 ]
+	 [   ]
+	 [ 0 ]
+ Col 4 = [   ]
+	 [ 0 ]
+	 [   ]
+	 [ 1 ]
+(C8) 		  ERRE_21 : TRIGSIMP(EXPAND(ERRE_2 . ERRE_1))
+		[ COS(a)  - SIN(a) COS(b)   SIN(a) SIN(b)   0 ]
+		[					      ]
+		[ SIN(a)   COS(a) COS(b)   - COS(a) SIN(b)  0 ]
+(D8) 	        [ 					      ]
+		[   0	      SIN(b)	       COS(b)	    0 ]
+		[					      ]
+		[   0		 0		  0	    1 ]
+(C9) 		 ERRE_21i : TRIGSIMP(EXPAND(INVERT(ERRE_21)))
+		[     COS(a)	       SIN(a)	      0	    0 ]
+		[					      ]
+		[ - SIN(a) COS(b)   COS(a) COS(b)   SIN(b)  0 ]
+(D9) 	        [ 					      ]
+		[  SIN(a) SIN(b)   - COS(a) SIN(b)  COS(b)  0 ]
+		[					      ]
+		[	 0		  0	      0	    1 ]
+(C10) 		  ERRE_12 : TRIGSIMP(EXPAND(ERRE_1 . ERRE_2))
+	       [	     2			       2	     ]
+	       [ 2 COS(a) SIN (a) COS(b) - 2 COS(a) SIN (a) + COS(a) ]
+	       [						     ]
+	       [       3			    3		     ]
+(D10)  Col 1 = [ (2 SIN (a) - SIN(a)) COS(b) - 2 SIN (a) + 2 SIN(a)  ]
+	       [						     ]
+	       [		   - SIN(a) SIN(b)		     ]
+	       [						     ]
+	       [			  0			     ]
+
+	 [	  3				 3		 ]
+	 [  (2 SIN (a) - 2 SIN(a)) COS(b) - 2 SIN (a) + SIN(a)	 ]
+	 [							 ]
+	 [			 2			    2	 ]
+ Col 2 = [ (COS(a) - 2 COS(a) SIN (a)) COS(b) + 2 COS(a) SIN (a) ]
+	 [							 ]
+	 [		       COS(a) SIN(b)			 ]
+	 [							 ]
+	 [			     0				 ]
+
+	 [ 2 COS(a) SIN(a) SIN(b) ]	    [ 0 ]
+	 [			  ]	    [   ]
+	 [	 2		  ]	    [ 0 ]
+ Col 3 = [ (2 SIN (a) - 1) SIN(b) ] Col 4 = [   ]
+	 [			  ]	    [ 0 ]
+	 [	   COS(b)	  ]	    [   ]
+	 [			  ]	    [ 1 ]
+	 [	     0		  ]
+(C11) 		 ERRE_12i : TRIGSIMP(EXPAND(INVERT(ERRE_12)))
+	       [	     2			       2	     ]
+	       [ 2 COS(a) SIN (a) COS(b) - 2 COS(a) SIN (a) + COS(a) ]
+	       [						     ]
+	       [       3			      3		     ]
+(D11)  Col 1 = [ (2 SIN (a) - 2 SIN(a)) COS(b) - 2 SIN (a) + SIN(a)  ]
+	       [						     ]
+	       [	       2 COS(a) SIN(a) SIN(b)		     ]
+	       [						     ]
+	       [			  0			     ]
+
+	 [	  3			       3		 ]
+	 [  (2 SIN (a) - SIN(a)) COS(b) - 2 SIN (a) + 2 SIN(a)	 ]
+	 [							 ]
+	 [			 2			    2	 ]
+ Col 2 = [ (COS(a) - 2 COS(a) SIN (a)) COS(b) + 2 COS(a) SIN (a) ]
+	 [							 ]
+	 [		        2				 ]
+	 [		  (2 SIN (a) - 1) SIN(b)		 ]
+	 [							 ]
+	 [			     0				 ]
+
+	 [ - SIN(a) SIN(b) ]	     [ 0 ]
+	 [		   ]	     [	 ]
+	 [  COS(a) SIN(b)  ]	     [ 0 ]
+ Col 3 = [ 		   ] Col 4 = [ 	 ]
+	 [     COS(b)	   ]	     [ 0 ]
+	 [		   ]	     [	 ]
+	 [	  0	   ]	     [ 1 ]
+(C12) 			     e_xx : ERRE_21 . e_x
+				  [ COS(a) ]
+				  [	   ]
+				  [ SIN(a) ]
+(D12) 				  [ 	   ]
+				  [   0	   ]
+				  [	   ]
+				  [   0	   ]
+(C13) 			     e_yy : ERRE_21 . e_y
+			      [ - SIN(a) COS(b) ]
+			      [		        ]
+			      [	 COS(a) COS(b)  ]
+(D13) 			      [ 	        ]
+			      [	    SIN(b)      ]
+			      [		        ]
+			      [	       0        ]
+(C14) 			     e_zz : ERRE_21 . e_z
+			      [	 SIN(a) SIN(b)  ]
+			      [		        ]
+			      [ - COS(a) SIN(b) ]
+(D14) 			      [ 	        ]
+			      [	    COS(b)      ]
+			      [		        ]
+			      [	       0        ]
+(C15) 			     e_XX : ERRE_12 . e_x
+	    [		  2			    2		  ]
+	    [ 2 COS(a) SIN (a) COS(b) - 2 COS(a) SIN (a) + COS(a) ]
+	    [							  ]
+	    [	    3				 3		  ]
+(D15) 	    [ (2 SIN (a) - SIN(a)) COS(b) - 2 SIN (a) + 2 SIN(a)  ]
+	    [							  ]
+	    [		        - SIN(a) SIN(b)			  ]
+	    [							  ]
+	    [			       0			  ]
+(C16) 			     e_YY : ERRE_12 . e_y
+	   [	    3				   3		   ]
+	   [  (2 SIN (a) - 2 SIN(a)) COS(b) - 2 SIN (a) + SIN(a)   ]
+	   [							   ]
+	   [			   2			      2	   ]
+(D16) 	   [ (COS(a) - 2 COS(a) SIN (a)) COS(b) + 2 COS(a) SIN (a) ]
+	   [							   ]
+	   [			 COS(a) SIN(b)			   ]
+	   [							   ]
+	   [			       0			   ]
+(C17) 			     e_ZZ : ERRE_12 . e_z
+			  [ 2 COS(a) SIN(a) SIN(b) ]
+			  [			   ]
+			  [	  2		   ]
+(D17) 			  [ (2 SIN (a) - 1) SIN(b) ]
+			  [			   ]
+			  [	    COS(b)	   ]
+			  [			   ]
+			  [	      0		   ]
+(C18) 			    ei_xx : ERRE_21i . e_x
+			      [	    COS(a)      ]
+			      [		        ]
+			      [ - SIN(a) COS(b) ]
+(D18) 			      [ 	        ]
+			      [	 SIN(a) SIN(b)  ]
+			      [		        ]
+			      [	       0        ]
+(C19) 			    ei_yy : ERRE_21i . e_y
+			      [	    SIN(a)      ]
+			      [		        ]
+			      [	 COS(a) COS(b)  ]
+(D19) 			      [ 	        ]
+			      [ - COS(a) SIN(b) ]
+			      [		        ]
+			      [	       0        ]
+(C20) 			    ei_zz : ERRE_21i . e_z
+				  [   0	   ]
+				  [	   ]
+				  [ SIN(b) ]
+(D20) 				  [ 	   ]
+				  [ COS(b) ]
+				  [	   ]
+				  [   0	   ]
+(C21) 			    ei_XX : ERRE_12i . e_x
+	    [		  2			    2		  ]
+	    [ 2 COS(a) SIN (a) COS(b) - 2 COS(a) SIN (a) + COS(a) ]
+	    [							  ]
+	    [	    3				   3		  ]
+(D21) 	    [ (2 SIN (a) - 2 SIN(a)) COS(b) - 2 SIN (a) + SIN(a)  ]
+	    [							  ]
+	    [		    2 COS(a) SIN(a) SIN(b)		  ]
+	    [							  ]
+	    [			       0			  ]
+(C22) 			    ei_YY : ERRE_12i . e_y
+	   [	    3				 3		   ]
+	   [  (2 SIN (a) - SIN(a)) COS(b) - 2 SIN (a) + 2 SIN(a)   ]
+	   [							   ]
+	   [			   2			      2	   ]
+(D22) 	   [ (COS(a) - 2 COS(a) SIN (a)) COS(b) + 2 COS(a) SIN (a) ]
+	   [							   ]
+	   [			  2				   ]
+	   [		    (2 SIN (a) - 1) SIN(b)		   ]
+	   [							   ]
+	   [			       0			   ]
+(C23) 			    ei_ZZ : ERRE_12i . e_z
+			      [ - SIN(a) SIN(b) ]
+			      [		        ]
+			      [	 COS(a) SIN(b)  ]
+(D23) 			      [ 	        ]
+			      [	    COS(b)      ]
+			      [		        ]
+			      [	       0        ]

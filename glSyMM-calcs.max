@@ -1,0 +1,25 @@
+e_x:matrix([1],[0],[0],[0]);
+e_y:matrix([0],[1],[0],[0]);
+e_z:matrix([0],[0],[1],[0]);
+glRotate(theta,x,y,z):=matrix([x**2*(1-cos(theta))+cos(theta),x*y*(1-cos(theta))-z*sin(theta),x*z*(1-cos(theta))+y*sin(theta),0],
+                            [y*x*(1-cos(theta))+z*sin(theta),y**2*(1-cos(theta))+cos(theta),y*z*(1-cos(theta))-x*sin(theta),0],
+                            [x*z*(1-cos(theta))-y*sin(theta),y*z*(1-cos(theta))+x*sin(theta),z**2*(1-cos(theta))+cos(theta),0],
+                            [0,0,0,1]);
+ERRE_1: glRotate(a,0,0,1);
+ERRE_2: glRotate(b,cos(a),sin(a),0);
+ERRE_21: trigsimp(expand( ERRE_2 . ERRE_1 ));
+ERRE_21i: trigsimp(expand(invert(ERRE_21)));
+ERRE_12: trigsimp(expand( ERRE_1 . ERRE_2 ));
+ERRE_12i: trigsimp(expand(invert(ERRE_12)));
+e_xx: ERRE_21 . e_x;
+e_yy: ERRE_21 . e_y;
+e_zz: ERRE_21 . e_z;
+e_XX: ERRE_12 . e_x;
+e_YY: ERRE_12 . e_y;
+e_ZZ: ERRE_12 . e_z;
+ei_xx: ERRE_21i . e_x;
+ei_yy: ERRE_21i . e_y;
+ei_zz: ERRE_21i . e_z;
+ei_XX: ERRE_12i . e_x;
+ei_YY: ERRE_12i . e_y;
+ei_ZZ: ERRE_12i . e_z;

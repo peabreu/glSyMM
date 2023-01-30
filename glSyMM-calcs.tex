@@ -1,0 +1,170 @@
+%-*-EMaxima-*-
+% $Id: glSyMM-calcs.tex,v 1.2 2004/04/07 09:01:55 paulo Exp $
+\documentclass[10pt,a4paper]{article}
+\usepackage{pst-all,bm}
+\usepackage[verbose,a4paper,dvips,textwidth=430pt,textheight=630pt,inner=1.in]{geometry}
+\usepackage{emaxima}
+\pagestyle{plain}
+\pagenumbering{roman}
+\begin{document}
+\beginmaximasession
+e_x:matrix([1],[0],[0],[0]);
+e_y:matrix([0],[1],[0],[0]);
+e_z:matrix([0],[0],[1],[0]);
+glRotate(theta,x,y,z):=matrix(
+[x**2*(1-cos(theta))+cos(theta), x*y*(1-cos(theta))-z*sin(theta), x*z*(1-cos(theta))+y*sin(theta),0], 
+[y*x*(1-cos(theta))+z*sin(theta), y**2*(1-cos(theta))+cos(theta), y*z*(1-cos(theta))-x*sin(theta),0], 
+[x*z*(1-cos(theta))-y*sin(theta), y*z*(1-cos(theta))+x*sin(theta), z**2*(1-cos(theta))+cos(theta),0],
+[0,0,0,1]);
+ERRE_1: glRotate(a,0,0,1);
+ERRE_2: glRotate(b,cos(a),sin(a),0);
+ERRE_21: trigsimp(expand( ERRE_2 . ERRE_1 ));
+ERRE_21i: trigsimp(expand(invert(ERRE_21)));
+ERRE_12: trigsimp(expand( ERRE_1 . ERRE_2 ));
+ERRE_12i: trigsimp(expand(invert(ERRE_12)));
+e_xx: ERRE_21 . e_x;
+e_yy: ERRE_21 . e_y;
+e_zz: ERRE_21 . e_z;
+e_XX: ERRE_12 . e_x;
+e_YY: ERRE_12 . e_y;
+e_ZZ: ERRE_12 . e_z;
+ei_xx: ERRE_21i . e_x;
+ei_yy: ERRE_21i . e_y;
+ei_zz: ERRE_21i . e_z;
+ei_XX: ERRE_12i . e_x;
+ei_YY: ERRE_12i . e_y;
+ei_ZZ: ERRE_12i . e_z;
+\maximatexsession
+\C1.  e_x:matrix([1],[0],[0],[0]); \\
+\D1.   \pmatrix{1\cr 0\cr 0\cr 0\cr } \\
+\C2.  e_y:matrix([0],[1],[0],[0]); \\
+\D2.   \pmatrix{0\cr 1\cr 0\cr 0\cr } \\
+\C3.  e_z:matrix([0],[0],[1],[0]); \\
+\D3.   \pmatrix{0\cr 0\cr 1\cr 0\cr } \\
+\C4.  glRotate(theta,x,y,z):=matrix(
+[x**2*(1-cos(theta))+cos(theta), x*y*(1-cos(theta))-z*sin(theta), x*z*(1-cos(theta))+y*sin(theta),0], 
+[y*x*(1-cos(theta))+z*sin(theta), y**2*(1-cos(theta))+cos(theta), y*z*(1-cos(theta))-x*sin(theta),0], 
+[x*z*(1-cos(theta))-y*sin(theta), y*z*(1-cos(theta))+x*sin(theta), z**2*(1-cos(theta))+cos(theta),0],
+[0,0,0,1]); \\
+\D4.   \mathrm{glRotate}\left(\vartheta,\linebreak[0]x,\linebreak[0]y
+ ,\linebreak[0]z\right):=\pmatrix{x^{2}\*\left(1-\cos \vartheta
+ \right)+\cos \vartheta&\linebreak[0]x\*y\*\left(1-\cos \vartheta
+ \right)-z\*\sin \vartheta&\linebreak[0]x\*z\*\left(1-\cos \vartheta
+ \right)+y\*\sin \vartheta&\linebreak[0]0\cr y\*x\*\left(1-\cos 
+ \vartheta\right)+z\*\sin \vartheta&\linebreak[0]y^{2}\*\left(1-\cos 
+ \vartheta\right)+\cos \vartheta&\linebreak[0]y\*z\*\left(1-\cos 
+ \vartheta\right)-x\*\sin \vartheta&\linebreak[0]0\cr x\*z\*\left(1-
+ \cos \vartheta\right)-y\*\sin \vartheta&\linebreak[0]y\*z\*\left(1-
+ \cos \vartheta\right)+x\*\sin \vartheta&\linebreak[0]z^{2}\*\left(1-
+ \cos \vartheta\right)+\cos \vartheta&\linebreak[0]0\cr 0
+ &\linebreak[0]0&\linebreak[0]0&\linebreak[0]1\cr } \\
+\C5.  ERRE_1: glRotate(a,0,0,1); \\
+\D5.   \pmatrix{\cos a&\linebreak[0]-\sin a&\linebreak[0]0
+ &\linebreak[0]0\cr \sin a&\linebreak[0]\cos a&\linebreak[0]0
+ &\linebreak[0]0\cr 0&\linebreak[0]0&\linebreak[0]1&\linebreak[0]0
+ \cr 0&\linebreak[0]0&\linebreak[0]0&\linebreak[0]1\cr } \\
+\C6.  ERRE_2: glRotate(b,cos(a),sin(a),0); \\
+\D6.   \pmatrix{\cos b+\cos ^{2}a\*\left(1-\cos b\right)&\linebreak[0]
+ \cos a\*\sin a\*\left(1-\cos b\right)&\linebreak[0]\sin a\*\sin b
+ &\linebreak[0]0\cr \cos a\*\sin a\*\left(1-\cos b\right)
+ &\linebreak[0]\cos b+\sin ^{2}a\*\left(1-\cos b\right)&\linebreak[0]
+ -\cos a\*\sin b&\linebreak[0]0\cr -\sin a\*\sin b&\linebreak[0]\cos 
+ a\*\sin b&\linebreak[0]\cos b&\linebreak[0]0\cr 0&\linebreak[0]0
+ &\linebreak[0]0&\linebreak[0]1\cr } \\
+\C7.  ERRE_21: trigsimp(expand( ERRE_2 . ERRE_1 )); \\
+\D7.   \pmatrix{\cos a&\linebreak[0]-\sin a\*\cos b&\linebreak[0]\sin a
+ \*\sin b&\linebreak[0]0\cr \sin a&\linebreak[0]\cos a\*\cos b
+ &\linebreak[0]-\cos a\*\sin b&\linebreak[0]0\cr 0&\linebreak[0]\sin 
+ b&\linebreak[0]\cos b&\linebreak[0]0\cr 0&\linebreak[0]0
+ &\linebreak[0]0&\linebreak[0]1\cr } \\
+\C8.  ERRE_21i: trigsimp(expand(invert(ERRE_21))); \\
+\D8.   \pmatrix{\cos a&\linebreak[0]\sin a&\linebreak[0]0&\linebreak[0]
+ 0\cr -\sin a\*\cos b&\linebreak[0]\cos a\*\cos b&\linebreak[0]\sin b
+ &\linebreak[0]0\cr \sin a\*\sin b&\linebreak[0]-\cos a\*\sin b
+ &\linebreak[0]\cos b&\linebreak[0]0\cr 0&\linebreak[0]0
+ &\linebreak[0]0&\linebreak[0]1\cr } \\
+\C9.  ERRE_12: trigsimp(expand( ERRE_1 . ERRE_2 )); \\
+\D9.   \pmatrix{2\*\cos a\*\sin ^{2}a\*\cos b-2\*\cos a\*\sin ^{2}a+
+ \cos a&\linebreak[0]\left(2\*\sin ^{3}a-2\*\sin a\right)\*\cos b-2\*
+ \sin ^{3}a+\sin a&\linebreak[0]2\*\cos a\*\sin a\*\sin b
+ &\linebreak[0]0\cr \left(2\*\sin ^{3}a-\sin a\right)\*\cos b-2\*
+ \sin ^{3}a+2\*\sin a&\linebreak[0]\left(\cos a-2\*\cos a\*\sin ^{2}a
+ \right)\*\cos b+2\*\cos a\*\sin ^{2}a&\linebreak[0]\left(2\*\sin ^{2
+ }a-1\right)\*\sin b&\linebreak[0]0\cr -\sin a\*\sin b&\linebreak[0]
+ \cos a\*\sin b&\linebreak[0]\cos b&\linebreak[0]0\cr 0&\linebreak[0]
+ 0&\linebreak[0]0&\linebreak[0]1\cr } \\
+\C10.  ERRE_12i: trigsimp(expand(invert(ERRE_12))); \\
+\D10.   \pmatrix{2\*\cos a\*\sin ^{2}a\*\cos b-2\*\cos a\*\sin ^{2}a+
+ \cos a&\linebreak[0]\left(2\*\sin ^{3}a-\sin a\right)\*\cos b-2\*
+ \sin ^{3}a+2\*\sin a&\linebreak[0]-\sin a\*\sin b&\linebreak[0]0\cr 
+ \left(2\*\sin ^{3}a-2\*\sin a\right)\*\cos b-2\*\sin ^{3}a+\sin a
+ &\linebreak[0]\left(\cos a-2\*\cos a\*\sin ^{2}a\right)\*\cos b+2\*
+ \cos a\*\sin ^{2}a&\linebreak[0]\cos a\*\sin b&\linebreak[0]0\cr 2\*
+ \cos a\*\sin a\*\sin b&\linebreak[0]\left(2\*\sin ^{2}a-1\right)\*
+ \sin b&\linebreak[0]\cos b&\linebreak[0]0\cr 0&\linebreak[0]0
+ &\linebreak[0]0&\linebreak[0]1\cr } \\
+\C11.  e_xx: ERRE_21 . e_x; \\
+\D11.   \pmatrix{\cos a\cr \sin a\cr 0\cr 0\cr } \\
+\C12.  e_yy: ERRE_21 . e_y; \\
+\D12.   \pmatrix{-\sin a\*\cos b\cr \cos a\*\cos b\cr \sin b\cr 0\cr } \\
+\C13.  e_zz: ERRE_21 . e_z; \\
+\D13.   \pmatrix{\sin a\*\sin b\cr -\cos a\*\sin b\cr \cos b\cr 0\cr } \\
+\C14.  e_XX: ERRE_12 . e_x; \\
+\D14.   \pmatrix{2\*\cos a\*\sin ^{2}a\*\cos b-2\*\cos a\*\sin ^{2}a+
+ \cos a\cr \left(2\*\sin ^{3}a-\sin a\right)\*\cos b-2\*\sin ^{3}a+2
+ \*\sin a\cr -\sin a\*\sin b\cr 0\cr } \\
+\C15.  e_YY: ERRE_12 . e_y; \\
+\D15.   \pmatrix{\left(2\*\sin ^{3}a-2\*\sin a\right)\*\cos b-2\*\sin 
+ ^{3}a+\sin a\cr \left(\cos a-2\*\cos a\*\sin ^{2}a\right)\*\cos b+2
+ \*\cos a\*\sin ^{2}a\cr \cos a\*\sin b\cr 0\cr } \\
+\C16.  e_ZZ: ERRE_12 . e_z; \\
+\D16.   \pmatrix{2\*\cos a\*\sin a\*\sin b\cr \left(2\*\sin ^{2}a-1
+ \right)\*\sin b\cr \cos b\cr 0\cr } \\
+\C17.  ei_xx: ERRE_21i . e_x; \\
+\D17.   \pmatrix{\cos a\cr -\sin a\*\cos b\cr \sin a\*\sin b\cr 0\cr } \\
+\C18.  ei_yy: ERRE_21i . e_y; \\
+\D18.   \pmatrix{\sin a\cr \cos a\*\cos b\cr -\cos a\*\sin b\cr 0\cr } \\
+\C19.  ei_zz: ERRE_21i . e_z; \\
+\D19.   \pmatrix{0\cr \sin b\cr \cos b\cr 0\cr } \\
+\C20.  ei_XX: ERRE_12i . e_x; \\
+\D20.   \pmatrix{2\*\cos a\*\sin ^{2}a\*\cos b-2\*\cos a\*\sin ^{2}a+
+ \cos a\cr \left(2\*\sin ^{3}a-2\*\sin a\right)\*\cos b-2\*\sin ^{3}a
+ +\sin a\cr 2\*\cos a\*\sin a\*\sin b\cr 0\cr } \\
+\C21.  ei_YY: ERRE_12i . e_y; \\
+\D21.   \pmatrix{\left(2\*\sin ^{3}a-\sin a\right)\*\cos b-2\*\sin ^{3}
+ a+2\*\sin a\cr \left(\cos a-2\*\cos a\*\sin ^{2}a\right)\*\cos b+2\*
+ \cos a\*\sin ^{2}a\cr \left(2\*\sin ^{2}a-1\right)\*\sin b\cr 0\cr }
+  \\
+\C22.  ei_ZZ: ERRE_12i . e_z; \\
+\D22.   \pmatrix{-\sin a\*\sin b\cr \cos a\*\sin b\cr \cos b\cr 0\cr } \\
+\endmaximasession
+%s_1:sin(a);
+%c_1:cos(a);
+%
+%s_2:sin(b);
+%c_2:cos(b);
+%
+%R_1:matrix([c_1,-s_1,0,0],[s_1,c_1,0,0],[0,0,1,0],[0,0,0,1]);
+%R_2:matrix([c_1*c_1*(1-c_2)+c_2,c_1*s_1*(1-c_2),s_1*s_2,0],[s_1*c_1*(1-c_2),s_1*s_1*(1-c_2)+c_2,-c_1*s_2,0],[-s_1*s_2,c_1*s_2,c_2,0],[0,0,0,1]);
+%
+%R_12i:trigsimp(expand(invert(R_1 . R_2)));
+%R_21i:trigsimp(expand(invert(R_2 . R_1)));
+%
+%e_X: trigsimp(expand(R_12i . e_x));
+%e_Y: trigsimp(expand(R_12i . e_y));
+%e_Z: trigsimp(expand(R_12i . e_z));
+%
+%E_X: trigsimp(expand(R_21i . e_x));
+%E_Y: trigsimp(expand(R_21i . e_y));
+%E_Z: trigsimp(expand(R_21i . e_z));
+%
+%R_12:trigsimp(expand(R_1 . R_2));
+%R_21:trigsimp(expand(R_2 . R_1));
+%
+%R_12I:trigsimp(expand(invert(R_12)));
+%R_21I:trigsimp(expand(invert(R_21)));
+\end{document}
+%%% Local Variables: 
+%%% mode: emaxima
+%%% TeX-master: t
+%%% End: 

@@ -1,0 +1,21 @@
+glSyMM pretends to be a point symmetry display system. Its main purpose is to
+identify (using as back-end SyMM) the point group of a molecule and to perform
+the symmetry operations on the molecule.
+
+    - Inversion on the symmetry center: atoms move from a position the
+    "inverted" position; atoms should be partially transparent; same velocity
+    for all atoms ?; representation of the inversion center ?
+
+    - Rotation around one axis; the axis is drawn and the rotation occurs;
+    Differentiate the rotation axis from the others (thicker maybe);
+
+    - Reflection; atoms should be partially transparent; representation of the
+    mirror plane ? I think a "mirror" larger than the each of the larger
+    coordinates in each direction (a constant percentage 12%) is a good idea;
+
+    - Improper rotation; apply each of the last two
+
+During these operations all of the usual movements should be allowed (rotation,
+translation and also scaling) should be allowed; define colours to atoms (see
+IUPAC recomendation on this; write MODULE for name, atomic symbol, van der Waals
+radius, colour;
